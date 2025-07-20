@@ -1,6 +1,6 @@
 var TaskQueries = require("../models/queries/task.queries.js");
 var apiResponses = require("../utils/apiResponses.js");
-var validator = require("../middleware/validation/customValidation.js");
+var validator = require("../middlewares/validation.middleware.js");
 
 function TaskController() {
   this.taskQueries = new TaskQueries();
@@ -43,12 +43,12 @@ TaskController.prototype.updateTask = async function (req, res) {
     if (errors.length > 0)
       return apiResponses.badRequest(res, errors.join(", "));
 
-    var affectedRows = await this.taskQueries.updateTask(
+    var result = await this.taskQueries.updateTask(
       req.params.id,
       req.user.id,
       req.body
     );
-    if (affectedRows === 0) {
+    if (result.affectedRows === 0) {
       return apiResponses.notFound(res, "Task not found or access denied");
     }
 
@@ -60,11 +60,11 @@ TaskController.prototype.updateTask = async function (req, res) {
 
 TaskController.prototype.deleteTask = async function (req, res) {
   try {
-    var affectedRows = await this.taskQueries.softDeleteTask(
+    var result = await this.taskQueries.softDeleteTask(
       req.params.id,
       req.user.id
     );
-    if (affectedRows === 0) {
+    if (result.affectedRows === 0) {
       return apiResponses.notFound(res, "Task not found or access denied");
     }
 

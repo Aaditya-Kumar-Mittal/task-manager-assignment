@@ -48,4 +48,17 @@ UserController.prototype.deactivateUser = async function (req, res) {
   }
 };
 
+UserController.prototype.activateUser = async function (req, res) {
+  try {
+    var affectedRows = await this.userQueries.activateUser(req.params.id);
+    if (affectedRows === 0) {
+      return apiResponses.notFound(res, "User not found");
+    }
+
+    return apiResponses.success(res, "User activated successfully");
+  } catch (error) {
+    return apiResponses.serverError(res, error.message);
+  }
+};
+
 module.exports = UserController;
