@@ -5,9 +5,11 @@ var app = express();
 var authRoutes = require("./routes/auth.routes.js");
 var userRoutes = require("./routes/user.routes.js");
 var taskRoutes = require("./routes/task.routes.js");
+var cors = require("cors");
 
 var port = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 

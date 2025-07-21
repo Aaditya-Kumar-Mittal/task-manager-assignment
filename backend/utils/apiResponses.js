@@ -47,6 +47,13 @@ var notFound = function (res, message, data = null) {
   });
 };
 
+var conflict = function (res, message, data = null) {
+  return res.status(409).json({
+    message: message,
+    data: data,
+  });
+};
+
 var serverError = function (res, message, data = null) {
   return res.status(500).json({
     message: message,
@@ -60,6 +67,7 @@ module.exports = {
   error: error,
   badRequest: badRequest,
   unauthorized: unauthorized,
+  conflict: conflict,
   forbidden: forbidden,
   notFound: notFound,
   serverError: serverError,

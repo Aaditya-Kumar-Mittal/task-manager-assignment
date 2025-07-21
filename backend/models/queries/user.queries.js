@@ -20,9 +20,9 @@ UserQueries.prototype.activateUser = function (userId) {
   return this.update({ id: userId }, { is_active: 1 });
 };
 
-UserQueries.prototype.updateUser = function (userId, updateData) {
+UserQueries.prototype.updateUser = async function (userId, updateData) {
   if (updateData.password) {
-    var hashedPassword = bcrypt.hashSync(updateData.password, 10);
+    var hashedPassword = await bcrypt.hash(updateData.password, 10);
     return this.update(
       { id: userId },
       { ...updateData, password: hashedPassword }
